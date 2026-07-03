@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms Lê Hằng English - IELTS Reading Practice Test</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #FF85A2;
+            --secondary-pink: #FFB3C6;
+            --dark-purple: #8854C0;
+            --mint-green: #00C9A7;
+            --yellow-sunny: #FDCB6E;
+            --correct-green: #00D26A;
+            --wrong-red: #FF4757;
+            --text-dark: #2D3436;
+            --bg-light: #FFF5F7;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            background-image: linear-gradient(45deg, #FFF0F5 25%, transparent 25%), 
+                              linear-gradient(-45deg, #FFF0F5 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #FFF0F5 75%), 
+                              linear-gradient(-45deg, transparent 75%, #FFF0F5 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Control Header Bar */
+        header {
+            background: linear-gradient(135deg, var(--primary-pink), var(--dark-purple));
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .header-title h1 {
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .header-title p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #timer-display {
+            font-size: 22px;
+            font-weight: 700;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .btn-timer {
+            background: var(--yellow-sunny);
+            border: none;
+            color: var(--text-dark);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D6A232;
+            transition: all 0.1s;
+        }
+
+        .btn-timer:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 200px;
+            background: rgba(255, 255, 255, 0.3);
+            height: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--mint-green), #55E6C1);
+            transition: width 0.3s ease;
+        }
+
+        /* Workspace Configuration (Split-Screen) */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            height: 100%;
+        }
+
+        /* Left Side Sheet: Text Reading */
+        .panel-left {
+            border-right: 4px dashed var(--secondary-pink);
+            background-color: white;
+            padding-right: 30px;
+        }
+
+        /* Selection highlight color pink pastel */
+        .panel-left ::selection {
+            background-color: #FFD1DC;
+            color: #000;
+        }
+
+        .passage-title {
+            color: var(--dark-purple);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--secondary-pink);
+            padding-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .paragraph-block {
+            margin-bottom: 24px;
+            line-height: 1.8;
+            font-size: 16px;
+            text-align: justify;
+            position: relative;
+            padding: 10px;
+            border-radius: 12px;
+            transition: background-color 0.4s ease;
+        }
+
+        .paragraph-block.highlighted-location {
+            background-color: #FFF2B2 !important;
+            border-left: 6px solid var(--yellow-sunny);
+            animation: pulse-highlight 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-highlight {
+            0% { background-color: #FFF2B2; }
+            100% { background-color: #FFE66D; }
+        }
+
+        .btn-translate {
+            background: #F1F2F6;
+            border: 2px solid #CED6E0;
+            color: #57606F;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+        }
+
+        .btn-translate:hover {
+            background: var(--secondary-pink);
+            color: white;
+            border-color: var(--primary-pink);
+        }
+
+        .translation-content {
+            display: none;
+            background-color: #FFF0F3;
+            border-left: 4px solid var(--primary-pink);
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #4B4B4B;
+            line-height: 1.7;
+        }
+
+        /* Right Side Sheet: Questions Quiz */
+        .panel-right {
+            background-color: #FFF9FA;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-pink));
+            color: white;
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-size: 16px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .question-card {
+            background: white;
+            border: 3px solid #FFE3E8;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 0 #FFE3E8;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-text {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Summary Context and Form Box */
+        .summary-block {
+            background-color: #FFF0F3;
+            border: 2px solid #FFE3E8;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* Options select roll menus style */
+        .roll-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border: 3px solid #CED6E0;
+            border-radius: 12px;
+            padding: 4px 28px 4px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark-purple);
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 3px 0 #CED6E0;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238854C0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+            min-width: 110px;
+            margin: 2px 4px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .roll-select:focus {
+            border-color: var(--primary-pink);
+        }
+
+        /* Multiple Choice option rows styling */
+        .mc-option {
+            background: white;
+            border: 2.5px solid #E4E7EB;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 0 #E4E7EB;
+        }
+
+        .mc-option:hover {
+            transform: scale(1.01);
+            border-color: var(--secondary-pink);
+            background-color: #FFFDFE;
+        }
+
+        .mc-option.selected-correct {
+            background-color: #E8FBEF !important;
+            border-color: var(--correct-green) !important;
+            box-shadow: 0 4px 0 var(--correct-green) !important;
+            color: #155724;
+            font-weight: 700;
+        }
+
+        .mc-option.selected-wrong {
+            background-color: #FFEAEB !important;
+            border-color: var(--wrong-red) !important;
+            box-shadow: 0 4px 0 var(--wrong-red) !important;
+            color: #721C24;
+        }
+
+        .mc-letter {
+            background-color: #F1F2F6;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #57606F;
+            flex-shrink: 0;
+        }
+
+        .selected-correct .mc-letter {
+            background-color: var(--correct-green);
+            color: white;
+        }
+
+        .selected-wrong .mc-letter {
+            background-color: var(--wrong-red);
+            color: white;
+        }
+
+        /* Control Verification items */
+        .btn-action {
+            background: white;
+            border: 3px solid var(--dark-purple);
+            color: var(--dark-purple);
+            padding: 5px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-purple);
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.1s;
+        }
+
+        .btn-action:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        /* Explanations boxes format sheet */
+        .explanation-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: #F8F9FA;
+            border: 2px dashed #DCDDE1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .exp-segment { margin-bottom: 8px; }
+        .exp-title { font-weight: 700; color: #2F3542; }
+        .exp-correct { color: var(--correct-green); font-weight: 700; }
+        .exp-quote { font-style: italic; color: #57606F; background: #FFF; padding: 8px; border-left: 3px solid var(--yellow-sunny); margin: 6px 0; border-radius: 0 6px 6px 0; }
+
+        .btn-locate {
+            background: var(--yellow-sunny);
+            border: none;
+            padding: 4px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+            box-shadow: 0 2px 0 #D6A232;
+        }
+
+        /* Feedback Error States shake dynamic */
+        .card-correct {
+            border-color: var(--correct-green) !important;
+            box-shadow: 0 6px 0 var(--correct-green) !important;
+            background-color: #E8FBEF !important;
+        }
+
+        .card-wrong-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Vocabulary Glossary Table */
+        .glossary-section {
+            margin-top: 40px;
+            background: white;
+            border: 3px solid var(--secondary-pink);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .glossary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .glossary-table th {
+            background-color: var(--primary-pink);
+            color: white;
+            text-align: left;
+            padding: 10px;
+            font-weight: 700;
+        }
+
+        .glossary-table td {
+            padding: 10px;
+            border-bottom: 1px solid #FFE3E8;
+        }
+
+        .glossary-table tr:nth-child(even) {
+            background-color: #FFF5F7;
+        }
+
+        /* Bottom Fixed Submit Strip */
+        .footer-submit {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 4px solid var(--secondary-pink);
+        }
+
+        .btn-submit-all {
+            background: linear-gradient(135deg, var(--correct-green), #2ED573);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #218C4E;
+            transition: all 0.1s;
+        }
+
+        .btn-submit-all:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+
+        /* Dashboard Result Modals layout */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: white;
+            border: 6px solid var(--primary-pink);
+            border-radius: 30px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-score {
+            font-size: 60px;
+            font-weight: 700;
+            color: var(--dark-purple);
+            margin: 20px 0;
+        }
+
+        .modal-comment {
+            font-size: 16px;
+            font-weight: 700;
+            color: #57606F;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .btn-close-modal {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D65A7F;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Navigation Top control strip -->
+    <header>
+        <div class="header-title">
+            <p>Giáo viên tạo: Ms Lê Hằng English</p>
+            <h1>IELTS READING MOCK TEST - THE MYSTERY OF EASTER ISLAND</h1>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                <span style="font-size: 11px; font-weight: 700; color: white;">TIẾN ĐỘ BÀI THI:</span>
+                <div class="progress-container">
+                    <div class="progress-bar" id="completion-progress"></div>
+                </div>
+            </div>
+
+            <div class="timer-container">
+                <span id="timer-display">25:00</span>
+                <button class="btn-timer" id="btn-timer-toggle" onclick="toggleTimer()">BẮT ĐẦU</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Workspace Screen Division Container -->
+    <div class="workspace">
+        
+        <!-- Left Side Sheet: Reading Content block and text nodes -->
+        <div class="panel panel-left" id="reading-passage-panel">
+            <h2 class="passage-title">The mystery of Easter Island</h2>
+            
+            <div class="paragraph-block" id="p1">
+                The giant stone statues of Easter Island in the Pacific Ocean have perplexed archaeologists ever since European explorers first witnessed them three centuries ago. Jacob Roggeveen, the Dutch seaman who gave the island its name in 1722, was amazed by the statues, each of which clearly weighed several tonnes. But as there were no forests on the island, he could not comprehend how people devoid of heavy timber could build and erect something that size. It was also remarkable considering the absence of metal objects for carving and cutting, and the reliance on mere human strength as no draught animals could be seen either. Roggeveen was equally amazed as to how the islanders could have come to colonise such a remote place. Their canoes were leaky and frail, not the sort of ocean-going craft that could survive a three-week sea journey. At the time of his visit, it seemed evident the islanders were living in extremely poor conditions and that there was no cultivation of crops.
+                <br><button class="btn-translate" onclick="toggleTranslation('p1')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p1">
+                    Những bức tượng đá khổng lồ trên Đảo Phục Sinh ở Thái Bình Dương đã làm đau đầu các nhà khảo cổ học kể từ khi các nhà thám hiểm châu Âu lần đầu tiên chứng kiến chúng cách đây ba thế kỷ. Jacob Roggeveen, thủy thủ người Hà Lan, người đã đặt tên cho hòn đảo này vào năm 1722, đã vô cùng kinh ngạc trước những bức tượng, mỗi bức rõ ràng nặng vài tấn. Nhưng vì trên đảo không có rừng, ông không thể hiểu nổi làm thế nào một bộ tộc thiếu thốn gỗ nặng lại có thể chế tạo và dựng lên một thứ có kích thước như vậy. Điều đó cũng thật đáng chú ý nếu xét đến việc thiếu các vật dụng bằng kim loại để điêu khắc và cắt gọt, cùng sự phụ thuộc hoàn toàn vào sức người khi không hề thấy bóng dáng của bất kỳ loài động vật kéo nào. Roggeveen cũng vô cùng kinh ngạc về việc làm thế nào những người dân đảo có thể đến định cư ở một nơi xa xôi hẻo lánh như vậy. Thuyền độc mộc của họ bị rò rỉ và mỏng manh, không phải loại phương tiện đi biển có thể sống sót sau chuyến hành trình ba tuần trên biển. Tại thời điểm ông ghé thăm, có vẻ như rõ ràng rằng những người dân đảo đang sống trong điều kiện vô cùng nghèo khổ và hoàn toàn không có sự trồng trọt hoa màu.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p2">
+                What was the mystery behind the statues? In the 1970s, the author Erich von Däniken suggested the statues were the work of extraterrestrial beings. It was hard to believe the stones were the work of humans who were more than 2,000 miles from the nearest mainland, so for a short period of time his theory appealed to those fascinated with space travel. But for serious academics, the puzzle of the statues has caused a deep divide. Some archaeologists see Easter Island as an example of what can happen when the lust for material splendour - ever bigger stone carvings in this case is satisfied at the expense of the environment. Others, meanwhile, take a different view. The island, these scholars argue, suffered at the hands of introduced diseases, notably smallpox, and a slave trade that stole a huge proportion of its indigenous population. At the heart of the debate is the issue of the island's deforestation. There is no doubt that the island was once covered in palm trees. There is also no doubt that something happened that caused the island to become completely denuded over a short period of time. But was it the islanders who triggered this environmental degradation or another event beyond their control, such as the introduction of rats? It is an indisputable fact that rats found their way to the island, although exactly how is a matter of debate.
+                <br><button class="btn-translate" onclick="toggleTranslation('p2')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p2">
+                    Bí ẩn đằng sau những bức tượng là gì? Vào những năm 1970, tác giả Erich von Däniken gợi ý rằng các bức tượng là tác phẩm của các sinh vật ngoài hành tinh. Thật khó tin rằng những tảng đá này là tác phẩm của những con người sống cách đất liền gần nhất hơn 2.000 dặm, vì vậy trong một thời gian ngắn, giả thuyết của ông đã thu hút những người đam mê du hành vũ trụ. Nhưng đối với các học giả nghiêm túc, câu đố về các bức tượng đã gây ra một sự chia rẽ sâu sắc. Một số nhà khảo cổ coi Đảo Phục Sinh là một ví dụ về những gì có thể xảy ra khi lòng thèm khát sự huy hoàng vật chất — trong trường hợp này là những tác phẩm điêu khắc bằng đá ngày càng lớn hơn — được thỏa mãn bằng cái giá phải trả của môi trường. Trong khi đó, những người khác lại có quan điểm khác. Các học giả này lập luận rằng hòn đảo này đã chịu tổn hại bởi các căn bệnh ngoại lai được du nhập vào, đặc biệt là bệnh đậu mùa, và một hoạt động buôn bán nô lệ đã cướp đi một phần lớn dân số bản địa của nó. Tâm điểm của cuộc tranh luận là vấn đề nạn phá rừng của hòn đảo. Không còn nghi ngờ gì nữa, hòn đảo từng được bao phủ bởi những hàng cây cọ. Cũng không còn nghi ngờ gì nữa, một điều gì đó đã xảy ra khiến hòn đảo trở nên hoàn toàn trơ trụi trong một thời gian ngắn. Nhưng liệu chính những người dân đảo đã kích hoạt sự suy thoái môi trường này hay là một sự kiện khác ngoài tầm kiểm soát của họ, chẳng hạn như sự du nhập của loài chuột? Có một sự thật không thể chối cãi là lũ chuột đã tìm đường đến hòn đảo, mặc dù chính xác bằng cách nào vẫn là một vấn đề gây tranh cãi.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p3">
+                In 2005, the anthropologist Jared Diamond claimed the islanders started building ceremonial statues in an atmosphere of rivalry between the many clans. To move the statues from the island's quarry in the south-east, they needed to cut large logs for the construction of long 'canoe ladders' to carry them to the coast. For its transport alone, each statue would have required several trees to be cut down. As a result of the deforestation, Diamond believes food production fell dramatically. Consequently the population collapsed from perhaps as many as 15,000 to the few thousand that were eking out a living by the time Roggeveen arrived. Smallpox and slavery killed off those who remained, but the islanders were on the way to total collapse even without any European contact, says Diamond.
+                <br><button class="btn-translate" onclick="toggleTranslation('p3')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p3">
+                    Vào năm 2005, nhà nhân chủng học Jared Diamond tuyên bố rằng những người dân đảo đã bắt đầu xây dựng các bức tượng nghi lễ trong một bầu không khí ganh đua khốc liệt giữa nhiều bộ tộc. Để di chuyển các bức tượng từ mỏ đá của hòn đảo ở phía đông nam, họ cần phải chặt các khúc gỗ lớn để xây dựng những "thang thuyền độc mộc" dài nhằm vận chuyển chúng ra bờ biển. Chỉ riêng cho việc vận chuyển, mỗi bức tượng sẽ yêu cầu một vài cái cây bị chặt hạ. Do hậu quả của việc phá rừng, Diamond tin rằng sản lượng lương thực đã sụt giảm nghiêm trọng. Hệ quả là dân số đã sụp đổ từ mức có thể lên tới 15.000 người xuống còn vài nghìn người sống lay lắt vào thời điểm Roggeveen đến nơi. Bệnh đậu mùa và nạn nô lệ đã giết chết những người còn lại, nhưng người dân đảo đã trên đường tiến tới sự sụp đổ hoàn toàn ngay cả khi không có bất kỳ sự tiếp xúc nào với người châu Âu, Diamond nói.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p4">
+                But not everyone is convinced. Professor Terry Hunt, an anthropologist at the University of Hawaii, says: 'There is no evidence that a population collapse occurred before European contact.' He is supported by Professor Carl Lipo of California State University. They argue that Easter Island was colonised by the first Polynesian seafarers nowhere near as early as supposed. They say the first people to arrive came around AD1200, about 400 years later than other scientists have suggested from radio-carbon dating. This makes it implausible for the population to have reached the 15,000 figure that would have caused such a fast ecocide. They also believe the deforestation occurred over a longer period as a result of climate change, and rats probably also played a part. The islanders did not go through a population collapse until after the arrival of Europeans, they say.
+                <br><button class="btn-translate" onclick="toggleTranslation('p4')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p4">
+                    Nhưng không phải ai cũng bị thuyết phục. Giáo sư Terry Hunt, nhà nhân chủng học tại Đại học Hawaii, cho biết: "Không có bằng chứng nào cho thấy sự sụp đổ dân số xảy ra trước khi có sự tiếp xúc với người châu Âu". Ông được hỗ trợ bởi Giáo sư Carl Lipo thuộc Đại học Bang California. Họ lập luận rằng Đảo Phục Sinh được định cư bởi những người đi biển Polynesia đầu tiên không hề sớm như người ta tưởng. Họ nói rằng những người đầu tiên đến đây vào khoảng năm 1200 sau Công nguyên, muộn hơn khoảng 400 năm so với những gì các nhà khoa học khác gợi ý từ phương pháp định tuổi bằng carbon phóng xạ. Điều này khiến cho việc dân số đạt tới con số 15.000 người — mức có thể gây ra một cuộc hủy diệt sinh thái nhanh chóng như vậy — trở nên không hợp lý. Họ cũng tin rằng nạn phá rừng xảy ra trong một thời gian dài hơn do kết quả của biến đổi khí hậu, và lũ chuột có lẽ cũng đóng một vai trò nào đó. Họ khẳng định người dân đảo không hề trải qua một cuộc sụp đổ dân số cho đến tận sau khi người châu Âu xuất hiện.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p5">
+                Hunt has examined new data from the Hawaiian and other Pacific islands that shows that by early historic times the deforestation of Easter Island was already complete, or nearly so. A dense forest of palm trees and shrubs had mostly disappeared and as a result, as many as six land bird species had also become extinct. Crucially, much of the forest damage appears to have been done before evidence of fires on the island. However, almost all of the palm seed shells discovered on the island were found to have been gnawed by rats which would have made them unable to germinate. Evidence from other Pacific islands also confirms how destructive rats can be. However, John Flenley of New Zealand's Massey University, who carried out much of the radio-carbon work on Easter Island, says there is ample evidence for a much earlier arrival of Polynesian settlers. He refutes the arguments of the sceptics: whilst admitting that the Europeans did bring certain disasters, he maintains that Hunt and Lipo are ignoring archaeological, botanical and sedimentological evidence proving the island was transformed from a subtropical rainforest to a treeless landscape. The radio-carbon dating points to an initial colonisation before AD900, Flenley argues. This was ample time for the rapid deforestation, environmental collapse and a population crash, he insists.
+                <br><button class="btn-translate" onclick="toggleTranslation('p5')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p5">
+                    Hunt đã kiểm tra dữ liệu mới từ Hawaii và các đảo Thái Bình Dương khác, cho thấy vào thời kỳ lịch sử ban đầu, nạn phá rừng ở Đảo Phục Sinh đã hoàn thành, hoặc gần như vậy. Một khu rừng rậm rạp gồm cây cọ và cây bụi hầu như đã biến mất và kết quả là, có tới sáu loài chim đất liền cũng bị tuyệt chủng. Điều cốt lõi là, phần lớn thiệt hại rừng dường như đã xảy ra trước khi có bằng chứng về các vụ hỏa hoạn trên đảo. Tuy nhiên, hầu hết tất cả các vỏ hạt cọ được phát hiện trên đảo đều được tìm thấy trong tình trạng bị gặm nhấm bởi chuột, điều này sẽ khiến chúng không thể nảy mầm. Bằng chứng từ các hòn đảo Thái Bình Dương khác cũng xác nhận lũ chuột có thể mang tính tàn phá ghê gớm đến mức nào. Tuy nhiên, John Flenley thuộc Đại học Massey của New Zealand, người thực hiện phần lớn công việc định tuổi bằng carbon phóng xạ trên Đảo Phục Sinh, nói rằng có nhiều bằng chứng cho thấy những người định cư Polynesia đến sớm hơn nhiều. Ông bác bỏ các lập luận của những người hoài nghi: trong khi thừa nhận rằng người châu Âu thực sự đã mang đến những thảm họa nhất định, ông khẳng định rằng Hunt và Lipo đang phớt lờ các bằng chứng khảo cổ học, thực vật học và trầm tích học chứng minh hòn đảo đã bị biến đổi từ một khu rừng mưa cận nhiệt đới thành một cảnh quan không có cây cối. Flenley lập luận rằng phương pháp định tuổi bằng carbon phóng xạ chỉ ra một cuộc định cư ban đầu trước năm 900 sau Công nguyên. Ông nhấn mạnh đây là thời gian dư dả cho quá trình phá rừng nhanh chóng, sụp đổ môi trường và suy sụp dân số.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p6">
+                Why all this is important today is not, of course, lost in the age of globalisation, climate change and a rapidly growing world population in the billions. As Diamond says: 'The parallels between Easter Island and the whole of the modern world are chillingly obvious.'
+                <br><button class="btn-translate" onclick="toggleTranslation('p6')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-p6">
+                    Lý do tại sao tất cả những điều này lại quan trọng ngày nay, dĩ nhiên, không hề bị lãng quên trong thời đại toàn cầu hóa, biến đổi khí hậu và dân số thế giới đang tăng nhanh lên tới hàng tỷ người. Như Diamond nói: "Những điểm tương đồng giữa Đảo Phục Sinh và toàn bộ thế giới hiện đại là rõ ràng một cách đáng sợ."
+                </div>
+            </div>
+
+            <!-- Comprehensive Academic Glossary Table -->
+            <div class="glossary-section">
+                <h3 style="color: var(--dark-purple);">📚 BẢNG TỪ VỰNG HỌC THUẬT NÂNG CAO (GLOSSARY)</h3>
+                <p style="font-size: 13px; color: #7F8C8D; margin-top: 4px;">Tổng hợp hơn 50 từ chuyên ngành cốt lõi trích xuất từ văn bản.</p>
+                <table class="glossary-table">
+                    <thead>
+                        <tr>
+                            <th>Từ vựng</th>
+                            <th>Từ loại</th>
+                            <th>Nghĩa tiếng Việt & Ghi chú từ đồng nghĩa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Perplexed</td><td>adj</td><td>Làm bối rối, sửng sốt (= puzzled / confused)</td></tr>
+                        <tr><td>Archaeologist</td><td>n</td><td>Nhà khảo cổ học</td></tr>
+                        <tr><td>Witnessed</td><td>v</td><td>Chứng kiến, nhìn thấy (= observed)</td></tr>
+                        <tr><td>Comprehend</td><td>v</td><td>Hiểu thấu, lĩnh hội (= understand / grasp)</td></tr>
+                        <tr><td>Devoid of</td><td>adj</td><td>Trống rỗng, hoàn toàn không có (= lacking / without)</td></tr>
+                        <tr><td>Heavy timber</td><td>n</td><td>Khối gỗ nặng, thân gỗ lớn (= logs / wood)</td></tr>
+                        <tr><td>Erect</td><td>v</td><td>Dựng lên, thiết lập xây dựng (= build)</td></tr>
+                        <tr><td>Absence</td><td>n</td><td>Sự thiếu vắng, vắng mặt (= lack)</td></tr>
+                        <tr><td>Carving</td><td>n/v</td><td>Chạm khắc, điêu khắc đá gỗ</td></tr>
+                        <tr><td>Reliance</td><td>n</td><td>Sự phụ thuộc, tin cậy (= dependence)</td></tr>
+                        <tr><td>Draught animal</td><td>n</td><td>Động vật kéo cày sức nặng (trâu, bò, ngựa)</td></tr>
+                        <tr><td>Colonise</td><td>v</td><td>Đến lập nghiệp, định cư, chiếm làm thuộc địa</td></tr>
+                        <tr><td>Remote</td><td>adj</td><td>Xa xôi, hẻo lánh, cách biệt (= isolated / distant)</td></tr>
+                        <tr><td>Canoe / Canoes</td><td>n</td><td>Xuồng, thuyền độc mộc nhỏ</td></tr>
+                        <tr><td>Leaky</td><td>adj</td><td>Bị nứt, thấm, rò rỉ nước</td></tr>
+                        <tr><td>Frail</td><td>adj</td><td>Yếu ớt, mỏng manh, dễ vỡ nát</td></tr>
+                        <tr><td>Craft</td><td>n</td><td>Tàu bè, thuyền, phương tiện di chuyển đường thủy (= boat)</td></tr>
+                        <tr><td>Cultivation</td><td>n</td><td>Sự gieo trồng, canh tác đất đai (= agriculture)</td></tr>
+                        <tr><td>Crop / Crops</td><td>n</td><td>Hoa màu, cây lương thực thu hoạch</td></tr>
+                        <tr><td>Extraterrestrial</td><td>adj</td><td>Ngoài hành tinh, ngoài trái đất</td></tr>
+                        <tr><td>Mainland</td><td>n</td><td>Đại lục, đất liền lớn</td></tr>
+                        <tr><td>Appealed to</td><td>v</td><td>Thu hút, lôi cuốn sự quan tâm (= attracted)</td></tr>
+                        <tr><td>Academic / Academics</td><td>n</td><td>Học giả, nhà nghiên cứu, giới hàn lâm</td></tr>
+                        <tr><td>Deep divide</td><td>n</td><td>Sự chia rẽ bè phái sâu sắc</td></tr>
+                        <tr><td>Lust for</td><td>n</td><td>Lòng thèm khát, tham muốn tột độ</td></tr>
+                        <tr><td>Splendour</td><td>n</td><td>Sự huy hoàng, tráng lệ, lộng lẫy</td></tr>
+                        <tr><td>Deforestation</td><td>n</td><td>Nạn tàn phá rừng, chặt phá rừng bừa bãi</td></tr>
+                        <tr><td>Completely denuded</td><td>adj</td><td>Bị trơ trụi hoàn toàn, rụng sạch bóng cây cối</td></tr>
+                        <tr><td>Triggered</td><td>v</td><td>Kích hoạt, gây ra, làm bùng nổ (= caused)</td></tr>
+                        <tr><td>Degradation</td><td>n</td><td>Sự suy thoái, xuống cấp chất lượng</td></tr>
+                        <tr><td>Indisputable fact</td><td>n</td><td>Sự thật hiển nhiên không thể tranh cãi chối bỏ</td></tr>
+                        <tr><td>Anthropologist</td><td>n</td><td>Nhà nhân chủng học</td></tr>
+                        <tr><td>Rivalry</td><td>n</td><td>Sự ganh đua, cạnh tranh quyết liệt</td></tr>
+                        <tr><td>Clan / Clans</td><td>n</td><td>Thị tộc, gia tộc, bộ tộc lân cận</td></tr>
+                        <tr><td>Quarry</td><td>n</td><td>Mỏ đá, công trường khai thác đá lộ thiên</td></tr>
+                        <tr><td>Transport</td><td>n/v</td><td>Sự vận chuyển, giao nhận chuyên chở (= transportation)</td></tr>
+                        <tr><td>Fell dramatically</td><td>v</td><td>Sụt giảm nghiêm trọng, lao dốc mạnh</td></tr>
+                        <tr><td>Population collapsed</td><td>v</td><td>Dân số suy sụp, sụp đổ bùng nổ tiêu cực</td></tr>
+                        <tr><td>Eking out a living</td><td>v</td><td>Kiếm sống chật vật, sống qua ngày lay lắt</td></tr>
+                        <tr><td>European contact</td><td>n</td><td>Sự tiếp xúc với người phương Tây châu Âu</td></tr>
+                        <tr><td>Convinced</td><td>adj</td><td>Được thuyết phục, tin tưởng chắc chắn</td></tr>
+                        <tr><td>Seafarer / Seafarers</td><td>n</td><td>Người đi biển, thủy thủ đoàn vượt đại dương</td></tr>
+                        <tr><td>Implausible</td><td>adj</td><td>Khó tin, vô lý, không hợp logic (= unbelievable)</td></tr>
+                        <tr><td>Ecocide</td><td>n</td><td>Sự hủy diệt hệ sinh thái môi trường</td></tr>
+                        <tr><td>Shrubs</td><td>n</td><td>Cây bụi thấp, thảm thực vật rậm</td></tr>
+                        <tr><td>Extinct</td><td>adj</td><td>Tuyệt chủng, biến mất vĩnh viễn</td></tr>
+                        <tr><td>Germinate</td><td>v</td><td>Nảy mầm, mọc mầm (hạt giống)</td></tr>
+                        <tr><td>Destructive</td><td>adj</td><td>Mang tính phá hoại, tàn phá khủng khiếp</td></tr>
+                        <tr><td>Ample</td><td>adj</td><td>Dư dả, phong phú, nhiều thoải mái (= plenty)</td></tr>
+                        <tr><td>Refutes</td><td>v</td><td>Phản bác, bác bỏ hoàn toàn lập luận (= rejects)</td></tr>
+                        <tr><td>Sceptic / Sceptics</td><td>n</td><td>Người hoài nghi, đa nghi, không tin tưởng</td></tr>
+                        <tr><td>Maintains</td><td>v</td><td>Khẳng định, bảo lưu giữ vững quan điểm (= asserts)</td></tr>
+                        <tr><td>Botanical</td><td>adj</td><td>Thuộc về thực vật học</td></tr>
+                        <tr><td>Sedimentological</td><td>adj</td><td>Thuộc về trầm tích học</td></tr>
+                        <tr><td>Transformed</td><td>v</td><td>Biến đổi hoàn toàn cấu trúc hình thái</td></tr>
+                        <tr><td>Parallels</td><td>n</td><td>Sự tương đồng, điểm giống nhau song song (= similarities)</td></tr>
+                        <tr><td>Chillingly obvious</td><td>adj</td><td>Rõ ràng một cách đáng rùng mình, đáng sợ</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Right Side Sheet: Exercises Area containing continuous question streams -->
+        <div class="panel panel-right">
+            
+            <!-- SECTION 1: QUESTIONS 27-30 -->
+            <div class="section-title">📝 DẠNG 1: SUMMARY COMPLETION (Questions 27–30)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 12px; font-weight: bold;">Chọn từ thích hợp từ danh sách A-D trong các hộp cuộn lựa chọn dưới đây:</p>
+            
+            <div class="summary-block" id="card-summary-group">
+                <strong>Early European reaction to the discovery of Easter Island</strong><br>
+                When Dutchman Jacob Roggeveen sailed to Easter Island in 1722, he was amazed by the stone statues he saw for a number of reasons. Firstly, it was clear that they were immensely heavy, and there was no 
+                <select id="q27" class="roll-select" onchange="checkSummaryDropdown('q27', 'D', 'p1')">
+                    <option value="">- Chọn -</option>
+                    <option value="A">A. poverty</option>
+                    <option value="B">B. agriculture</option>
+                    <option value="C">C. boats</option>
+                    <option value="D">D. wood</option>
+                </select> (27)
+                around, which would have helped with their construction. Roggeveen did not think the inhabitants had any metal tools, or animals for heavy labour either. Another mystery was the poor quality of the local inhabitants' 
+                <select id="q28" class="roll-select" onchange="checkSummaryDropdown('q28', 'C', 'p1')">
+                    <option value="">- Chọn -</option>
+                    <option value="A">A. poverty</option>
+                    <option value="B">B. agriculture</option>
+                    <option value="C">C. boats</option>
+                    <option value="D">D. wood</option>
+                </select> (28); 
+                Roggeveen wondered how the people had managed to survive long trips. At the time of Roggeveen's visit, he observed that the people were living in 
+                <select id="q29" class="roll-select" onchange="checkSummaryDropdown('q29', 'A', 'p1')">
+                    <option value="">- Chọn -</option>
+                    <option value="A">A. poverty</option>
+                    <option value="B">B. agriculture</option>
+                    <option value="C">C. boats</option>
+                    <option value="D">D. wood</option>
+                </select> (29) 
+                and there was no evidence of successful 
+                <select id="q30" class="roll-select" onchange="checkSummaryDropdown('q30', 'B', 'p1')">
+                    <option value="">- Chọn -</option>
+                    <option value="A">A. poverty</option>
+                    <option value="B">B. agriculture</option>
+                    <option value="C">C. boats</option>
+                    <option value="D">D. wood</option>
+                </select> (30) on the island.
+            </div>
+
+            <!-- Explanations Box for Summary Group (Toggled automatically per response) -->
+            <div class="explanation-box" id="exp-summary" style="display:block; background-color: white; border: 3px solid #FFE3E8;">
+                <p style="font-weight:700; color:var(--dark-purple); margin-bottom:10px;">HIỂN THỊ GIẢI THÍCH CHI TIẾT DẠNG ĐIỀN TỪ (Q27-30):</p>
+                <div style="font-size:13px; color:#57606F;">*Chọn đáp án trong cuộn để kích hoạt phân tích từng câu lân cận. <button class="btn-locate" onclick="locatePassage('p1')">📍 Định vị đoạn chứa đáp án</button></div>
+                <div id="exp-sub-content"></div>
+            </div>
+
+
+            <!-- SECTION 2: QUESTIONS 31-35 -->
+            <div class="section-title">📊 DẠNG 2: YES / NO / NOT GIVEN (Questions 31–35)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 15px; font-weight: bold;">Chọn YES, NO hoặc NOT GIVEN phù hợp với quan điểm nội dung bài đọc:</p>
+
+            <!-- Question 31 -->
+            <div class="question-card" id="card-q31">
+                <div class="question-text">31. Erich von Däniken's claims were briefly accepted by some sections of society.</div>
+                <select id="q31" class="roll-select" onchange="checkDropdown('q31', 'YES', 'p2')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                <div class="explanation-box" id="exp-q31">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">YES</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"...so for a short period of time his theory appealed to those fascinated with space travel."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA DOẠN CHỨA ĐÁP ÁN:</span> ...vì vậy trong một khoảng thời gian ngắn, giả thuyết của ông đã thu hút những người đam mê du hành vũ trụ. Do đó, lý thuyết này từng được chấp nhận ngắn hạn bởi một bộ phận xã hội.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> briefly accepted = for a short period of time appealed to <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 32 -->
+            <div class="question-card" id="card-q32">
+                <div class="question-text">32. Archaeologists removed valuable artefacts from the island.</div>
+                <select id="q32" class="roll-select" onchange="checkDropdown('q32', 'NOT GIVEN', 'p2')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                <div class="explanation-box" id="exp-q32">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NOT GIVEN</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"But for serious academics, the puzzle of the statues has caused a deep divide. Some archaeologists see Easter Island as an example..."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA DOẠN CHỨA ĐÁP ÁN:</span> Đoạn văn chỉ nói các nhà khảo cổ học tranh cãi chia rẽ sâu sắc về nguyên nhân biến đổi hòn đảo, hoàn toàn không có thông tin về việc họ có di dời cổ vật giá trị nào đi hay không.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> Không xuất hiện thông tin tương đương đối chiếu trong bài. <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 33 -->
+            <div class="question-card" id="card-q33">
+                <div class="question-text">33. Smallpox continued to affect Easter Island's inhabitants for centuries.</div>
+                <select id="q33" class="roll-select" onchange="checkDropdown('q33', 'NOT GIVEN', 'p2')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                <div class="explanation-box" id="exp-q33">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NOT GIVEN</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"The island, these scholars argue, suffered at the hands of introduced diseases, notably smallpox..."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA DOẠN CHỨA ĐÁP ÁN:</span> Bài viết đề cập cư dân đảo gánh chịu thảm họa từ bệnh ngoại lai du nhập vào, đặc biệt là bệnh đậu mùa (smallpox). Tuy nhiên việc nó có tiếp diễn dai dẳng suốt nhiều thế kỷ (for centuries) hay không thì không được làm rõ.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> Thiếu căn cứ thời gian chi tiết để khẳng định hay phủ định. <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 34 -->
+            <div class="question-card" id="card-q34">
+                <div class="question-text">34. It remains open to question whether Easter Island was once covered in forest.</div>
+                <select id="q34" class="roll-select" onchange="checkDropdown('q34', 'NO', 'p2')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                <div class="explanation-box" id="exp-q34">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NO</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"There is no doubt that the island was once covered in palm trees."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA DOẠN CHỨA ĐÁP ÁN:</span> Không còn nghi ngờ gì nữa về việc hòn đảo từng được bao phủ đầy cây cọ rừng. Do đó, nhận định nói "vẫn là câu hỏi bỏ ngỏ tranh cãi" (remains open to question) mâu thuẫn trực tiếp với văn bản.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> There is no doubt &ne; remains open to question <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 35 -->
+            <div class="question-card" id="card-q35">
+                <div class="question-text">35. The way that rats arrived on Easter Island is still to be established.</div>
+                <select id="q35" class="roll-select" onchange="checkDropdown('q35', 'YES', 'p2')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                <div class="explanation-box" id="exp-q35">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">YES</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"It is an indisputable fact that rats found their way to the island, although exactly how is a matter of debate."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Việc lũ chuột tìm đến đảo là sự thật hiển nhiên, tuy nhiên chính xác bằng cách thức con đường nào thì vẫn đang là một chủ đề cần bàn luận tranh cãi (chưa được chốt hạ xác minh rõ).</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> still to be established = is a matter of debate | the way = exactly how <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+
+            <!-- SECTION 3: QUESTIONS 36-40 -->
+            <div class="section-title">🏆 DẠNG 3: MULTIPLE CHOICE QUESTIONS (Questions 36–40)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 15px; font-weight: bold;">Click trực tiếp lên dòng lựa chọn để kiểm tra đáp án đúng/sai tức thì:</p>
+
+            <!-- Question 36 -->
+            <div class="question-card" id="card-q36">
+                <div class="question-text">36. What does Jared Diamond blame for the lack of vegetation on Easter Island?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'A', this, 'p3')"><div class="mc-letter">A</div> The construction of stone statues</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'B', this, 'p3')"><div class="mc-letter">B</div> Climate change over a long period</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'C', this, 'p3')"><div class="mc-letter">C</div> A method of transportation</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'D', this, 'p3')"><div class="mc-letter">D</div> The arrival of Europeans</div>
+                
+                <div class="explanation-box" id="exp-q36">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">C (A method of transportation)</span></div>
+                    <div class="exp-quote">"To move the statues... they needed to cut large logs for the construction of long 'canoe ladders' to carry them to the coast. For its transport alone, each statue would have required several trees to be cut down."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Jared Diamond nhấn mạnh việc đốn hạ lượng lớn cây gỗ phục vụ làm "thang kéo thuyền" trung chuyển kéo các khối tượng đá ra bờ biển. Đó chính là một phương thức vận chuyển (a method of transportation). <button class="btn-locate" onclick="locatePassage('p3')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 37 -->
+            <div class="question-card" id="card-q37">
+                <div class="question-text">37. What do Hunt and Lipo suggest about the population of Easter Island?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q37', 'A', this, 'p4')"><div class="mc-letter">A</div> It collapsed before European contact</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q37', 'B', this, 'p4')"><div class="mc-letter">B</div> The first settlers arrived much later than is widely accepted</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q37', 'C', this, 'p4')"><div class="mc-letter">C</div> It never exceeded a few thousand inhabitants</div>
+                <div class="mc-option" onclick="checkMultipleChoice('7', 'D', this, 'p4')"><div class="mc-letter">D</div> It declined mainly because of disease</div>
+                
+                <div class="explanation-box" id="exp-q37">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">B (The first settlers arrived much later...)</span></div>
+                    <div class="exp-quote">"They say the first people to arrive came around AD1200, about 400 years later than other scientists have suggested..."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Hai giáo sư lập luận cư dân đầu tiên đặt chân định cư đến đảo muộn hơn tới 400 năm so với mốc thời gian được các nhà nghiên cứu trước đây chấp nhận rộng rãi. <button class="btn-locate" onclick="locatePassage('p4')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 38 -->
+            <div class="question-card" id="card-q38">
+                <div class="question-text">38. What is suggested about rats on Easter Island in the fifth paragraph?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q38', 'A', this, 'p5')"><div class="mc-letter">A</div> They were a likely cause of deforestation</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q38', 'B', this, 'p5')"><div class="mc-letter">B</div> They arrived after the forests had disappeared</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q38', 'C', this, 'p5')"><div class="mc-letter">C</div> They had no effect on plant regeneration</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q38', 'D', this, 'p5')"><div class="mc-letter">D</div> They were introduced by Europeans</div>
+                
+                <div class="explanation-box" id="exp-q38">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">A (They were a likely cause of deforestation)</span></div>
+                    <div class="exp-quote">"...almost all of the palm seed shells discovered on the island were found to have been gnawed by rats which would have made them unable to germinate."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Các lớp vỏ hạt cọ đều bị chuột gặm nhấm phá hoại khiến chúng không thể nảy mầm tái sinh rừng, điều này chứng tỏ chuột chính là nguyên nhân lớn thúc đẩy nạn tàn phá mất rừng. <button class="btn-locate" onclick="locatePassage('p5')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 39 -->
+            <div class="question-card" id="card-q39">
+                <div class="question-text">39. Flenley responds to Hunt and Lipo’s theory by</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q39', 'A', this, 'p5')"><div class="mc-letter">A</div> dismissing it</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q39', 'B', this, 'p5')"><div class="mc-letter">B</div> partially supporting it</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q39', 'C', this, 'p5')"><div class="mc-letter">C</div> expanding on their arguments</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q39', 'D', this, 'p5')"><div class="mc-letter">D</div> avoiding direct criticism</div>
+                
+                <div class="explanation-box" id="exp-q39">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">A (dismissing it)</span></div>
+                    <div class="exp-quote">"He refutes the arguments of the sceptics: whilst admitting that the Europeans did bring certain disasters, he maintains that Hunt and Lipo are ignoring archaeological..."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Flenley phản bác gay gắt (refutes) lý thuyết của Hunt và Lipo, khẳng định họ đang cố tình phớt lờ các bằng chứng thực vật trầm tích vững chắc. Hành động này đồng nghĩa bác bỏ hoàn toàn (dismissing). <button class="btn-locate" onclick="locatePassage('p5')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 40 -->
+            <div class="question-card" id="card-q40">
+                <div class="question-text">40. The writer’s purpose in this article is to</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q40', 'A', this, 'p6')"><div class="mc-letter">A</div> argue in favour of Diamond’s interpretation</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q40', 'B', this, 'p6')"><div class="mc-letter">B</div> provide an overview of a series of arguments</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q40', 'C', this, 'p6')"><div class="mc-letter">C</div> prove that rats were the main cause of deforestation</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q40', 'D', this, 'p6')"><div class="mc-letter">D</div> criticise modern archaeological methods</div>
+                
+                <div class="explanation-box" id="exp-q40">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">B (provide an overview of a series of arguments)</span></div>
+                    <div class="exp-quote">Bài viết tổng hòa các luồng giả thuyết: "Erich von Däniken suggested... Some archaeologists see... Others, meanwhile, take a different view... Jared Diamond claimed... Hunt and Lipo argue..."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Mục tiêu chính xuyên suốt của tác giả không phải để bênh vực phe nào, mà là đưa ra cái nhìn khách quan tổng quan về một chuỗi các tranh luận khoa học lịch sử khác nhau quanh hòn đảo này. <button class="btn-locate" onclick="locatePassage('p5')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Submission Anchor Bar -->
+    <div class="footer-submit">
+        <button class="btn-submit-all" onclick="submitExam()">NỘP BÀI KIỂM TRA ĐỂ CHẤM ĐIỂM 🏆</button>
+    </div>
+
+    <!-- Gamified Report Modal Overlays Grid -->
+    <div class="modal-overlay" id="result-modal">
+        <div class="modal-card">
+            <h2 style="color: var(--primary-pink); font-size: 26px;">🎉 BẢNG VÀNG THÀNH TÍCH 🎉</h2>
+            <div class="modal-score" id="score-text">0 / 14</div>
+            <div class="modal-comment" id="comment-text">Chúc mừng con đã hoàn thành bài thi!</div>
+            <button class="btn-close-modal" onclick="closeModal()">ĐÓNG VÀ XEM LẠI LỖI SAI</button>
+        </div>
+    </div>
+
+    <script>
+        // Intelligent pure Web Audio API Synthesizer (Zero asset dependency)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16); // G5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(75, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            }
+        }
+
+        // CountDown Timer state management
+        let timeLeft = 25 * 60;
+        let timerId = null;
+        let timerRunning = false;
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timer-display').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer-toggle');
+            if (!timerRunning) {
+                timerRunning = true;
+                btn.innerText = "TẠM DỪNG";
+                btn.style.background = "#FF4757";
+                btn.style.boxShadow = "0 4px 0 #C23616";
+                timerId = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerId);
+                        alert("Đã hết giờ làm bài. Bạn vẫn có thể tiếp tục làm, nhưng nhớ là trong phòng thi thật, bạn chỉ nên làm một bài như thế này trong 20-25 phút thôi nha.");
+                        btn.innerText = "BẮT ĐẦU";
+                        timerRunning = false;
+                    }
+                }, 1000);
+            } else {
+                timerRunning = false;
+                btn.innerText = "TIẾP TỤC";
+                btn.style.background = "var(--yellow-sunny)";
+                btn.style.boxShadow = "0 4px 0 #D6A232";
+                clearInterval(timerId);
+            }
+        }
+
+        // Drop paragraph trans toggler sheets
+        function toggleTranslation(id) {
+            const node = document.getElementById('trans-' + id);
+            node.style.display = (node.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Real-time tracking progress bar calculations
+        const totalQuestions = 14; // 4 summary dropdowns + 5 TF + 5 MC
+        const answersState = {};
+
+        function recalculateProgress() {
+            let answeredKeys = Object.keys(answersState).length;
+            let ratio = (answeredKeys / totalQuestions) * 100;
+            document.getElementById('completion-progress').style.width = ratio + '%';
+        }
+
+        // Summary embedded selector verification logic
+        const correctSummary = {
+            'q27': { ans: 'D', txt: '27. ĐÁP ÁN: D (wood)', quote: '"...people devoid of heavy timber..."', det: 'Hòn đảo không có rừng hoai sơ, Roggeveen thắc mắc cư dân làm sao lắp đặt tượng đá khi không có gỗ lớn (timber = wood) hỗ trợ dựng.' },
+            'q28': { ans: 'C', txt: '28. ĐÁP ÁN: C (boats)', quote: '"Their canoes were leaky and frail..."', det: 'Canoes (thuyền mộc nhỏ) chính là đại diện tương đương của phương tiện tàu bè thuyền bè (boats) bị mục nát thấm nước của cư dân đảo.' },
+            'q29': { ans: 'A', txt: '29. ĐÁP ÁN: A (poverty)', quote: '"...islanders were living in extremely poor conditions..."', det: 'Điều kiện sinh sống nghèo khổ cùng cực nghèo nàn tương đồng với danh từ Poverty.' },
+            'q30': { ans: 'B', txt: '30. ĐÁP ÁN: B (agriculture)', quote: '"...there was no cultivation of crops."', det: 'Không tìm thấy dấu vết của việc cày cấy canh tác cây trồng gieo hạt, chính là hoạt động nông nghiệp làm nông (agriculture).' }
+        };
+
+        function checkSummaryDropdown(id, correctVal, paragraphId) {
+            const el = document.getElementById(id);
+            const userPick = el.value;
+            
+            if(userPick === "") return;
+
+            if(userPick === correctVal) {
+                playSound('correct');
+                answersState[id] = true;
+                el.style.borderColor = "var(--correct-green)";
+            } else {
+                playSound('wrong');
+                answersState[id] = false;
+                el.value = correctVal; // Auto rectify on failure state
+                el.style.borderColor = "var(--wrong-red)";
+            }
+
+            // Build collective layout outputs dynamically below the block
+            let htmlReport = "";
+            Object.keys(correctSummary).forEach(k => {
+                if(answersState[k] !== undefined) {
+                    let item = correctSummary[k];
+                    htmlReport += `<div class="exp-segment">
+                        <span class="exp-title">${item.txt}</span>
+                        <div class="exp-quote">${item.quote}</div>
+                        <p style="margin-left:8px;">&rarr; ${item.det}</p>
+                    </div><hr style="border:1px dashed #FFE3E8; margin:6px 0;">`;
+                }
+            });
+            document.getElementById('exp-sub-content').innerHTML = htmlReport;
+            recalculateProgress();
+        }
+
+        // Standard TF/NG verification selector menu options
+        function checkDropdown(id, correctVal, paragraphId) {
+            const el = document.getElementById(id);
+            const card = document.getElementById('card-' + id);
+            const exp = document.getElementById('exp-' + id);
+            const val = el.value;
+
+            if (val === "") return;
+
+            if (val === correctVal) {
+                card.className = "question-card card-correct";
+                playSound('correct');
+                answersState[id] = true;
+            } else {
+                card.className = "question-card card-wrong-shake";
+                setTimeout(() => card.className = "question-card", 400);
+                playSound('wrong');
+                el.value = correctVal; // Immediate reveal sequence
+                answersState[id] = false;
+            }
+            exp.style.display = "block";
+            recalculateProgress();
+        }
+
+        // Multiple Choice card components handlers
+        const mcAnswers = { 'q36': 'C', 'q37': 'B', 'q38': 'A', 'q39': 'A', 'q40': 'B' };
+
+        function checkMultipleChoice(qId, selectedLetter, elementRef, paragraphId) {
+            const parentCard = document.getElementById('card-' + qId);
+            const targetExp = document.getElementById('exp-' + qId);
+            
+            // Disable re-clicking options once answered inside the specific card container
+            const siblings = parentCard.querySelectorAll('.mc-option');
+            siblings.forEach(s => s.style.pointerEvents = 'none');
+
+            const correctLetter = mcAnswers[qId];
+
+            if (selectedLetter === correctLetter) {
+                elementRef.classList.add('selected-correct');
+                playSound('correct');
+                answersState[qId] = true;
+            } else {
+                elementRef.classList.add('selected-wrong');
+                parentCard.classList.add('card-wrong-shake');
+                setTimeout(() => parentCard.classList.remove('card-wrong-shake'), 400);
+                playSound('wrong');
+                answersState[qId] = false;
+
+                // Auto highlight the accurate option row to ensure continuous feedback
+                siblings.forEach(s => {
+                    if (s.getAttribute('onclick').includes(`'${correctLetter}'`)) {
+                        s.classList.add('selected-correct');
+                    }
+                });
+            }
+
+            targetExp.style.display = "block";
+            recalculateProgress();
+        }
+
+        // Precise automated scroll positioning locator view tool
+        function locatePassage(paragraphId) {
+            document.querySelectorAll('.paragraph-block').forEach(p => {
+                p.classList.remove('highlighted-location');
+            });
+
+            const targetNode = document.getElementById(paragraphId);
+            if(targetNode) {
+                targetNode.classList.add('highlighted-location');
+                targetNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Total score calculation execution sheet
+        function submitExam() {
+            let finalScore = 0;
+            const keysList = ['q27', 'q28', 'q29', 'q30', 'q31', 'q32', 'q33', 'q34', 'q35', 'q36', 'q37', 'q38', 'q39', 'q40'];
+            
+            keysList.forEach(k => {
+                if (answersState[k] === true) finalScore++;
+            });
+
+            document.getElementById('score-text').innerText = `${finalScore} / 14`;
+            
+            let quoteRemark = "";
+            if (finalScore === 14) {
+                quoteRemark = "👑 THIÊN TÀI ĐỌC HIỂU XUẤT CHÚNG! Con đạt điểm tuyệt đối 14/14 câu hỏi khó nhằn này. Cô Lê Hằng chúc mừng con!";
+            } else if (finalScore >= 11) {
+                quoteRemark = "🌟 THÀNH TÍCH QUÁ HOÀNH TRÁNG! Kỹ năng đọc quét (Scanning & Skimming) của con rất tốt. Đọc kỹ phần sửa lỗi sai nhé!";
+            } else if (finalScore >= 7) {
+                quoteRemark = "👍 LÀM TỐT LẮM NÈ! Điểm số ở mức Khá. Con hãy chú ý các từ khóa bẫy paraphrase đồng nghĩa (Synonyms) trong bài.";
+            } else {
+                quoteRemark = "💪 BÀI ĐỌC NÀY KHÁ KHÓ VÀ NHIỀU TỪ VỰNG HÀN LÂM! Con hãy nhấn nút mở bản dịch để tích lũy thêm cấu trúc câu Anh-Việt nha.";
+            }
+
+            document.getElementById('comment-text').innerText = quoteRemark;
+            document.getElementById('result-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
